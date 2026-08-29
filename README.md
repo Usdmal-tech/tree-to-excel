@@ -2,224 +2,224 @@
 
 # Tree to Excel Parser
 
-**Краткое описание:**
+**Brief description:**
 
-Преобразует текстовый вывод команды `tree` (стандартный или с ключом `/A`) в структурированную Excel-таблицу, автоматически определяя кодировку входного файла и [корректно](#6-особенности-парсинга-и-ограничения) распознавая папки и файлы даже для сложных случаев (пустые папки, файлы без расширения, папки с точкой в имени).
-Программа поддерживает три режима отображения – плоский (`flat`), объединённый (`merged`) и полный (`merged_full`) с цветовой кодировкой уровней и жирным шрифтом для папок.
-Полезно для визуализации иерархии каталогов, сохранения и/или аудита файловой структуры, документирования проектов, подготовки отчётов по вложенности, а также для последующего анализа данных в Excel без необходимости ручного копирования и форматирования.
+Converts the text output of the `tree` command (standard or with the `/A` switch) into a structured Excel spreadsheet, automatically detecting the input file encoding and [correctly](#6-parsing-features-and-limitations) identifying folders and files even for complex cases (empty folders, files without extensions, folders with a dot in the name).
 
->**ВАЖНО:** Программа в первую очередь писалась для кириллицы, поэтому точно определяет кириллические шрифты в кодировках UTF-8 и CP866. Для других кодировок результат не гарантируется.
+The program supports three display modes – flat (`flat`), merged (`merged`), and full merged (`merged_full`) – with color-coded levels and bold font for folders.
 
-<!-- ОГЛАВЛЕНИЕ -->
+Useful for visualizing directory hierarchies, preserving and/or auditing file structures, documenting projects, preparing nesting reports, and for subsequent analysis in Excel without manual copying and formatting.
+
+> **IMPORTANT:** The program was primarily written for Cyrillic scripts, so it accurately detects Cyrillic fonts in UTF-8 and CP866 encodings. For other encodings, the result is not guaranteed.
 
 <details>
-  <summary>Оглавление</summary>
+  <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#1-возможности">Возможности</a>
+      <a href="#1-features">Features</a>
     </li>
     <li>
-      <a href="#2-установка">Установка</a>
+      <a href="#2-installation">Installation</a>
       <ul>
-        <li><a href="#требования">Требования</a></li>
-        <li><a href="#шаги">Шаги</a></li>
+        <li><a href="#requirements">Requirements</a></li>
+        <li><a href="#steps">Steps</a></li>
       </ul>
     </li>
     <li>
-      <a href="#3-использование">Использование</a>
+      <a href="#3-usage">Usage</a>
       <ul>
-        <li><a href="#синтаксис">Синтаксис</a></li>
-        <li><a href="#параметры">Параметры</a></li>
-        <li><a href="#примеры">Примеры</a></li>
-        <li><a href="#примечания">Примечания</a></li>
+        <li><a href="#syntax">Syntax</a></li>
+        <li><a href="#options">Options</a></li>
+        <li><a href="#examples">Examples</a></li>
+        <li><a href="#notes">Notes</a></li>
       </ul>
     </li>
     <li>
-      <a href="#4-режимы-вывода">Режимы вывода</a>
+      <a href="#4-output-modes">Output modes</a>
       <ul>
-        <li><a href="#41-режим-flat-плоский">Режим `flat` (плоский)</a></li>
-        <li><a href="#42-режим-merged-объединённый">Режим `merged` (объединённый)</a></li>
-        <li><a href="#43-режим-merged_full-полный-объединённый">Режим `merged_full` (полный объединённый)</a></li>
+        <li><a href="#41-flat-mode">`flat` mode</a></li>
+        <li><a href="#42-merged-mode">`merged` mode</a></li>
+        <li><a href="#43-merged_full-mode">`merged_full` mode</a></li>
       </ul>
     </li>
     <li>
-      <a href="#5-пример-работы">Пример работы</a>
+      <a href="#5-example-output">Example output</a>
       <ul>
-        <li><a href="#51-входной-файл-без-ключа-a">Входной файл (без ключа `/A`)</a></li>
-        <li><a href="#52-входной-файл-c-ключом-a">Входной файл (с ключом `/A`)</a></li>
+        <li><a href="#51-input-without-a">Input (without `/A`)</a></li>
+        <li><a href="#52-input-with-a">Input (with `/A`)</a></li>
       </ul>
     </li>
     <li>
-      <a href="#6-особенности-парсинга-и-ограничения">Особенности парсинга и ограничения</a>
+      <a href="#6-parsing-features-and-limitations">Parsing features and limitations</a>
       <ul>
-        <li><a href="#61-стандартный-формат-tree-без-ключа-a">Стандартный формат `tree` (без ключа `/A`)</a></li>
-        <li><a href="#62-формат-tree-a-ascii">Формат `tree /A` (ASCII)</a></li>
-        <li><a href="#63-рекомендации-по-обходу-ограничений">Рекомендации по обходу ограничений</a></li>
-        <li><a href="#64-кодировки">Кодировки</a></li>
-        <li><a href="#65-общее-замечание">Общее замечание</a></li>
+        <li><a href="#61-standard-tree-format-without-a">Standard `tree` format (without `/A`)</a></li>
+        <li><a href="#62-tree-a-ascii-format">`tree /A` (ASCII) format</a></li>
+        <li><a href="#63-workarounds">Workarounds</a></li>
+        <li><a href="#64-encodings">Encodings</a></li>
+        <li><a href="#65-general-note">General note</a></li>
       </ul>
     </li>
     <li>
-      <a href="#7-тестирование">Тестирование</a>
+      <a href="#7-testing">Testing</a>
       <ul>
-        <li><a href="#запуск-тестов">Запуск тестов</a></li>
+        <li><a href="#running-tests">Running tests</a></li>
       </ul>
     </li>
-    <li><a href="#8-лицензия">Лицензия</a></li>
-    <li><a href="#9-вклад-в-проект">Вклад в проект</a></li>
+    <li><a href="#8-license">License</a></li>
+    <li><a href="#9-contributing">Contributing</a></li>
   </ol>
 </details>
 
-<!-- ВОЗМОЖНОСТИ -->
-## 1. Возможности
+<!-- FEATURES -->
+## 1. Features
 
-- **Поддержка двух форматов `tree`**
-Работает как с выводом стандартной команды `tree` (с символами `├───`, `└───`), так и с ASCII-форматом (`tree /A`), где используются `+---`, `\---`.
+- **Support for two `tree` formats**  
+  Works with both the standard `tree` output (using `├───`, `└───`) and the ASCII format (`tree /A`), which uses `+---`, `\---`.
 
-- **Три режима представления данных**
-  - `flat` – только папки, каждая в отдельной строке;
-  - `merged` – только папки с объединением ячеек для повторяющихся имён предков (удобно для визуализации иерархии);
-  - `merged_full` – все элементы (папки и файлы), объединение ячеек.
+- **Three data presentation modes**
+  - `flat` – folders only, each on a separate row;
+  - `merged` – folders only, with merged cells for repeated ancestor names (useful for visualizing hierarchy);
+  - `merged_full` – all items (folders and files), with cell merging.
 
-Уровни вложенности отображаются в соответствующих столбцах. Папки выделены **жирным** шрифтом.
+Nesting levels are placed in corresponding columns. Folders are highlighted in **bold**.
 
-- **Автоматическое определение кодировки**
-Входной файл анализируется с помощью библиотеки `chardet`. Если уверенность определения ниже 0.85, программа переключается на **UTF-8** и выводит предупреждение, советуя при необходимости указать кодировку явно через параметр `--encoding`. Это гарантирует, что даже при сомнительном определении данные не будут потеряны, а пользователь сможет легко исправить ситуацию.
+- **Automatic encoding detection**  
+  The input file is analysed using the `chardet` library. If the detection confidence is below 0.85, the program falls back to **UTF-8** and displays a warning, recommending that you explicitly specify the encoding via the `--encoding` parameter if needed. This ensures that even with uncertain detection, data is not lost, and the user can easily correct the situation.
 
-- **Цветовое выделение уровней**
-Каждый уровень вложенности в Excel получает свой цвет фона. Путь к элементу окрашивается в жёлтый цвет.
+- **color-coded levels**  
+  Each nesting level gets its own background color in Excel. The path to the item is highlighted in yellow.
 
-- **Статистика в конце таблицы**
-Автоматически добавляется строка с общим количеством папок и файлов.
+- **Statistics at the end of the table**  
+  A summary row is automatically added with the total number of folders and files.
 
-- **Гибкий вывод**
-Если выходной файл не указан, имя генерируется автоматически на основе имени входного файла и выбранного режима.
+- **Flexible output**  
+  If no output file is specified, a name is generated automatically based on the input file name and the selected mode.
 
-- **Простота использования**
-Инструмент предназначен для работы из командной строки и не требует графического интерфейса.
+- **Simplicity**  
+  The tool is designed to be used from the command line and does not require a graphical interface.
 
-<p align="right"><a href="#readme-top">в начало</a></p>
+<p align="right"><a href="#readme-top">back to top</a></p>
 
 ---
 
-<!-- УСТАНОВКА -->
-## 2. Установка
+<!-- INSTALLATION -->
+## 2. Installation
 
-### Требования
+### Requirements
 
-- Python версии **3.8** или выше.
-- Установленный пакетный менеджер `pip`.
+- Python version **3.8** or higher.
+- Installed `pip` package manager.
 
-### Шаги
+### Steps
 
-1. Клонируйте репозиторий или скачайте файлы проекта.
-2. Перейдите в корневую папку проекта (где находится `requirements.txt`).
-3. Установите необходимые зависимости:
+1. Clone the repository or download the project files.
+2. Navigate to the project root directory (where `requirements.txt` is located).
+3. Install the required dependencies:
 
    ```bash
    pip install -r requirements.txt
    ```
 
-4. Для запуска тестов также потребуется `pytest` – он уже включён в `requirements.txt`, но если вы не планируете тестировать, его можно не устанавливать (он не используется в основном скрипте).
+4. To run tests, you will also need `pytest` – it is already included in `requirements.txt`, but if you do not plan to test, you can skip installing it (it is not used by the main script).
 
-После установки зависимостей программа `tree_to_excel.py` готов к использованию.
+After the dependencies are installed, the `tree_to_excel.py` script is ready to use.
 
-<p align="right"><a href="#readme-top">в начало</a></p>
+<p align="right"><a href="#readme-top">back to top</a></p>
 
 ---
 
-<!-- ИСПОЛЬЗОВАНИЕ -->
-## 3. Использование
+<!-- USAGE -->
+## 3. Usage
 
-### Синтаксис
+### Syntax
 
 ```bash
-python src/tree_to_excel/tree_to_excel.py -i <входной_файл> [-m <режим>] [-o <выходной_файл>] [-e <кодировка>]
+python src/tree_to_excel/tree_to_excel.py -i <input_file> [-m <mode>] [-o <output_file>] [-e <encoding>]
 ```
 
-### Параметры
+### Options
 
-| Параметр         | Описание                                                                                                                                                                                      |
-|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `-i, --input`    | **Обязательный.** Путь к текстовому файлу с выводом команды `tree`.                                                                                                                           |
-| `-m, --mode`     | Режим формирования таблицы. Допустимые значения: `flat`, `merged`, `merged_full`. По умолчанию: `flat`.                                                                                       |
-| `-o, --output`   | Путь для сохранения Excel-файла. Если не указан, имя генерируется автоматически: `<имя_входного_файла>_<режим>.xlsx` в той же папке, что и входной файл.                                      |
-| `-e, --encoding` | Принудительно задать кодировку входного файла (например, UTF-8, cp1251). Переопределяет автоматическое определение. Полезно, если автоопределение даёт сбой (например, для редких кодировок). |
-| `--version`      | Показать версию программы и выйти.                                                                                                                                                            |
+| Option           | Description                                                                                                                                             |
+|------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `-i, --input`    | **Required.** Path to the text file containing the `tree` command output.                                                                               |
+| `-m, --mode`     | Table generation mode. Allowed values: `flat`, `merged`, `merged_full`. Default: `flat`.                                                                |
+| `-o, --output`   | Path to save the Excel file. If not specified, a name is generated automatically: `<input_filename>_<mode>.xlsx` in the same folder as the input file.  |
+| `-e, --encoding` | Force the encoding of the input file (e.g., UTF-8, cp1251). Overrides automatic detection. Useful when auto-detection fails (e.g., for rare encodings). |
+| `--version`      | Show the program version and exit.                                                                                                                      |
 
-### Примеры
+### Examples
 
-1. **Базовый запуск** (режим `flat`, выходной файл создаётся автоматически):
+1. **Basic run** (mode `flat`, output file generated automatically):
 
    ```bash
    python src/tree_to_excel/tree_to_excel.py -i tree_output.txt
    ```
 
-2. **Указание режима и выходного файла**:
+2. **Specifying mode and output file**:
 
    ```bash
    python src/tree_to_excel/tree_to_excel.py -i tree.txt -m merged_full -o result.xlsx
    ```
 
-3. **Указание кодировки**
+3. **Specifying encoding**:
 
    ```bash
    python src/tree_to_excel/tree_to_excel.py -i tree.txt -m merged_full -e CP866
    ```
 
-4. **Получение справки**:
+4. **Getting help**:
 
    ```bash
    python src/tree_to_excel/tree_to_excel.py -h
    ```
 
-### Примечания
+### Notes
 
-- Входной файл должен содержать вывод команды `tree` в одном из поддерживаемых форматов (стандартном или с ключом `/A`). Примеры таких файлов можно найти в папке `examples/`.
-- Если входной файл не содержит корректного корневого пути (в формате `X:\...`), программа завершится с ошибкой.
-- При успешном выполнении в консоль выводится путь к созданному Excel-файлу.
-- В случае ошибок (отсутствие файла, проблемы с парсингом) сообщения выводятся в `stderr`.
+- The input file must contain the output of the `tree` command in one of the supported formats (standard or with the `/A` switch). Examples of such files can be found in the `examples/` folder.
+- If the input file does not contain a valid root path (in the format `X:\...`), the program will exit with an error.
+- On successful execution, the path to the created Excel file is printed to the console.
+- In case of errors (missing file, parsing issues), messages are printed to `stderr`.
 
-<p align="right"><a href="#readme-top">в начало</a></p>
+<p align="right"><a href="#readme-top">back to top</a></p>
 
 ---
 
-<!-- РЕЖИМ ВЫВОДА -->
-## 4. Режимы вывода
+<!-- OUTPUT MODES -->
+## 4. Output modes
 
-Программа поддерживает три режима, которые определяют, какие элементы попадают в Excel и как они группируются. Выбор режима зависит от ваших задач: хотите ли вы видеть только папки или все элементы, и нужна ли вам визуальная иерархия с объединением ячеек.
+The program supports three modes that determine which items appear in the Excel sheet and how they are grouped. Your choice depends on your needs: whether you want to see only folders or all items, and whether you need visual hierarchy with merged cells.
 
-### 4.1. Режим `flat` (плоский)
+### 4.1. `flat` mode
 
-- **Что попадает в таблицу:** только папки (файлы исключаются).
-- **Как выглядит:** каждый элемент (папка) занимает отдельную строку. Имя папки помещается в столбец, соответствующий её уровню вложенности (L1, L2, …). Таким образом, уровень виден по положению имени в строке.
-- **Особенности:** ячейки не объединяются, структура читается по столбцам. Это удобно для дальнейшей фильтрации или сортировки в Excel.
+- **What goes into the table:** folders only (files are excluded).
+- **How it looks:** each item (folder) occupies a separate row. The folder name is placed in the column corresponding to its nesting level (L1, L2, …). Thus, the level is visible by the column position.
+- **Peculiarities:** cells are not merged; the structure is read across columns. This is convenient for further filtering or sorting in Excel.
 
-**Пример команды:**
+**Example command:**
 
 ```bash
 python src/tree_to_excel/tree_to_excel.py tree.txt -m flat
 ```
 
-### 4.2. Режим `merged` (объединённый)
+### 4.2. `merged` mode
 
-- **Что попадает в таблицу:** только папки.
-- **Как выглядит:** для каждого уровня столбцы заполняются именами папок-предков. Если имя предка повторяется для нескольких дочерних элементов, ячейки с этим именем объединяются по вертикали. Это создаёт визуальное дерево, похожее на структуру папок в проводнике.
-- **Особенности:** объединение выполняется только для папок, файлы игнорируются. В результате получается компактное представление иерархии.
+- **What goes into the table:** folders only.
+- **How it looks:** for each level, columns are filled with ancestor folder names. If an ancestor name repeats for several child items, the cells with that name are merged vertically. This creates a visual tree, similar to the folder view in a file explorer.
+- **Peculiarities:** merging is performed only for folders; files are ignored. The result is a compact representation of the hierarchy.
 
-**Пример команды:**
+**Example command:**
 
 ```bash
 python src/tree_to_excel/tree_to_excel.py -i tree.txt -m merged
 ```
 
-### 4.3. Режим `merged_full` (полный объединённый)
+### 4.3. `merged_full` mode
 
-- в таблицу попадают все элементы – и папки, и файлы.
-- визуально результат аналогичен режиму `merged`, но теперь файлы также включаются в строки. Папки в таблице выделяются **жирным шрифтом**, файлы – обычным. Это позволяет сразу отличить каталоги от файлов.
-- объединение ячеек работает для всех повторяющихся имён предков.
+- All items – both folders and files – are included in the table.
+- Visually, the result is similar to the `merged` mode, but now files are also included in the rows. Folders are highlighted in **bold**, files in regular font. This makes it easy to distinguish directories from files at a glance.
+- Cell merging works for all repeated ancestor names.
 
-**Пример команды:**
+**Example command:**
 
 ```bash
 python src/tree_to_excel/tree_to_excel.py -i tree.txt -m merged_full
@@ -227,22 +227,22 @@ python src/tree_to_excel/tree_to_excel.py -i tree.txt -m merged_full
 
 <br>
 
-|     Режим     |       Папки        |       Файлы        | Объединение ячеек  |
+|     Mode      |      Folders       |       Files        |    Cell merging    |
 |:-------------:|:------------------:|:------------------:|:------------------:|
 |    `flat`     | :white_check_mark: |        :x:         |        :x:         |
 |   `merged`    | :white_check_mark: |        :x:         | :white_check_mark: |
 | `merged_full` | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 
-<p align="right"><a href="#readme-top">в начало</a></p>
+<p align="right"><a href="#readme-top">back to top</a></p>
 
 ---
 
-<!-- ПРИМЕР РАБОТЫ -->
-## 5. Пример работы
+<!-- EXAMPLE OUTPUT -->
+## 5. Example output
 
-### 5.1. Входной файл (без ключа `/A`)
+### 5.1. Input (without `/A`)
 
-Пример текстового файла `project_tree.txt` со следующим содержимым (вывод команды `tree` без ключа `/A`):
+Example text file `project_tree.txt` with the following content (output of the `tree` command without the `/A` switch):
 
 ```text
 Folder PATH listing for volume System
@@ -262,29 +262,29 @@ C:\MY_PROJECT
     └───deploy.bat
 ```
 
-После выполнения создается файл `project_tree_[режим].xlsx`:
+After execution, the file `project_tree_[mode].xlsx` is created:
 
-- пример вывода в режиме `flat`:
+- Example output in `flat` mode:
 
 <div align="center">
 <img src="./examples/project_tree_flat.png"/>
 </div>
 
-- пример вывода в режиме `merged`:
+- Example output in `merged` mode:
 
 <div align="center">
 <img src="./examples/project_tree_merged.png"/>
 </div>
 
-- пример вывода в режиме `merged_full`:
+- Example output in `merged_full` mode:
 
 <div align="center">
 <img src="./examples/project_tree_merged_full.png"/>
 </div>
 
-### 5.2. Входной файл (c ключом `/A`)
+### 5.2. Input (with `/A`)
 
-Пример текстового файла `project_tree.txt` со следующим содержимым (вывод команды `tree` c ключом `/A`):
+Example text file `project_tree.txt` with the following content (output of the `tree` command with the `/A` switch):
 
 ```text
 Folder PATH listing for volume System
@@ -304,138 +304,138 @@ C:\MY_PROJECT
     \---deploy.bat
 ```
 
-После выполнения создается файл `project_tree_[режим].xlsx`:
+After execution, the file `project_tree_[mode].xlsx` is created:
 
-- пример вывода в режиме `flat`:
+- Example output in `flat` mode:
 
 <div align="center">
 <img src="./examples/project_tree_a_flat.png"/>
 </div>
 
-- пример вывода в режиме `merged`:
+- Example output in `merged` mode:
 
 <div align="center">
 <img src="./examples/project_tree_a_merged.png"/>
 </div>
 
-- пример вывода в режиме `merged_full`:
+- Example output in `merged_full` mode:
 
 <div align="center">
 <img src="./examples/project_tree_a_merged_full.png"/>
 </div>
 
-<p align="right"><a href="#readme-top">в начало</a></p>
+<p align="right"><a href="#readme-top">back to top</a></p>
 
 ---
 
-<!-- ОСОБЕННОСТИ И ОГРАНИЧЕНИЯ -->
-## 6. Особенности парсинга и ограничения
+<!-- PARSING FEATURES AND LIMITATIONS -->
+## 6. Parsing features and limitations
 
-При преобразовании дерева в Excel необходимо учитывать особенности парсинга, связанные с тем, как программа отличает папки от файлов.
+When converting the tree to Excel, it is important to be aware of the parser's behavior and its limitations, especially regarding how it distinguishes folders from files.
 
-### 6.1. Стандартный формат `tree` (без ключа `/A`)
+### 6.1. Standard `tree` format (without `/A`)
 
-Парсер определяет тип элемента (папка или файл) следующим способом:
+The parser determines the item type (folder or file) as follows:
 
-1. **Если у элемента есть потомки** – это **папка**.
-2. **Если потомков нет, но присутствует маркер** (`+---`, `\---`, `├───`, `└───`):
-   - **и в имени есть точка (`.`)**: элемент считается **файлом**.
-   - **и в имени нет точки**: элемент считается **пустой папкой**.
+1. **If the item has children** – it is a **folder**.
+2. **If the item has no children, but has a marker** (`+---`, `\---`, `├───`, `└───`):
+   - **and the name contains a dot (`.`)**: the item is treated as a **file**.
+   - **and the name does not contain a dot**: the item is treated as an **empty folder**.
 
-Эта логика может давать сбои в следующих случаях:
+This logic may fail in the following cases:
 
-- **Папки с точкой в имени**  
-  Например, `project.v1`, `.config`, `my.folder`.  
-  Поскольку в имени есть точка, парсер сочтёт их файлами, даже если это пустые папки (или папки, у которых нет видимых потомков в выводе `tree`).
-  *Результат:* такие папки не попадут в режимы `flat` и `merged` (там выводятся только папки) и будут отображаться как файлы в `merged_full`.
+- **Folders with a dot in the name**  
+  For example, `project.v1`, `.config`, `my.folder`.  
+  Because the name contains a dot, the parser will consider them files, even if they are empty folders (or folders with no visible children in the `tree` output).  
+  *Result:* such folders will not appear in `flat` and `merged` modes (which only output folders) and will be displayed as files in `merged_full`.
 
-- **Файлы без расширения**  
-  Например, `README`, `Makefile`, `LICENSE`, `Dockerfile`.
-  *Результат:* они будут ошибочно включены в списки папок в режимах `flat` и `merged`, а в `merged_full` будут выделены жирным шрифтом как папки.
+- **Files without an extension**  
+  For example, `README`, `Makefile`, `LICENSE`, `Dockerfile`.  
+  *Result:* they will be incorrectly included in folder lists in `flat` and `merged` modes, and in `merged_full` they will be highlighted in bold as folders.
 
-### 6.2. Формат `tree /A` (ASCII)
+### 6.2. `tree /A` (ASCII) format
 
-В этом формате все маркеры используют только символы `+`, `\`, `|` и пробелы. Парсер **не использует маркер** для определения типа элемента – папкой считается только тот элемент, у которого есть потомки.
+In this format, all markers use only the characters `+`, `\`, `|`, and spaces. The parser **does not use markers** to determine the item type – only items that have children are considered folders.
 
-**Пустые папки не распознаются** и всегда определяются как файлы. Команда `tree /A` в Windows не выводит пустые папки с маркерами ветвления так же явно, как стандартный вывод, или выводит их без индикаторов продолжения, из-за чего парсер не может отличить их от файлов без расширения.
+**Empty folders are not recognized** and are always identified as files. The `tree /A` command on Windows does not output empty folders with branch markers as clearly as the standard output, or it outputs them without continuation indicators, making it impossible for the parser to distinguish them from extension-less files.
 
-### 6.3. Рекомендации по обходу ограничений
+### 6.3. Workarounds
 
-Если ваша структура содержит **папки с точками** или **файлы без расширений**, и вы хотите избежать ошибочной классификации, используйте один из двух методов:
+If your structure contains **folders with dots** or **files without extensions**, and you want to avoid misclassification, use one of the following methods:
 
-- используйте вывод `tree /A` (ASCII) для таких структур – тогда папки с точками будут корректно определены (при условии, что у них есть потомки). Однако **пустые папки** в этом случае будут ошибочно определены как файлы (и, следовательно, не попадут в режимы `flat` и `merged`).
-- сохраните стандартный вывод `tree` и **вручную проверьте** полученный Excel-файл, при необходимости скорректировав типы элементов (это можно сделать в таблице, если вы знаете, какие элементы должны быть папками).
+- Use the `tree /A` (ASCII) output for such structures – then folders with dots will be correctly identified (provided they have children). However, **empty folders** will then be incorrectly classified as files (and consequently will not appear in `flat` and `merged` modes).
+- Keep the standard `tree` output and **manually check** the resulting Excel file, adjusting item types if necessary (this can be done in the spreadsheet if you know which items should be folders).
 
-### 6.4. Кодировки
+### 6.4. Encodings
 
-Программа автоматически определяет кодировку входного файла с помощью библиотеки `chardet`.
-Порог уверенности установлен на уровне **0.85** – если детектор не достигает этой уверенности, используется `UTF-8` как запасной вариант, а в консоль выводится предупреждение с просьбой указать кодировку вручную, если имена отображаются некорректно.
+The program automatically detects the input file encoding using the `chardet` library.  
+The confidence threshold is set to **0.85** – if the detector does not reach this confidence, it falls back to `UTF-8` as a default, and a warning is printed to the console recommending that you specify the encoding manually if the names appear incorrect.
 
-Для большинства распространённых кодировок (UTF-8, WINDOWS-1251, ISO-8859-1) автоопределение работает надёжно. Для менее распространённых (CP866, EUC-KR, GB2312, SHIFT-JIS и др.) возможны ошибки.
+For most common encodings (UTF-8, WINDOWS-1251, ISO-8859-1), auto-detection works reliably. For less common ones (CP866, EUC-KR, GB2312, SHIFT-JIS, etc.), errors are possible.
 
-**Если вы столкнулись с искажёнными символами в Excel** запустите программу повторно с параметром `--encoding`, указав правильную кодировку.
+**If you encounter garbled characters in Excel**, run the program again with the `--encoding` parameter, specifying the correct encoding.
 
-Пример:
+Example:
 
 ```bash
 python src/tree_to_excel/tree_to_excel.py -i my_tree.txt --encoding CP866
 ```
 
-### 6.5. Общее замечание
+### 6.5. General note
 
-Инструмент предназначен для **быстрого анализа и визуализации** структуры папок, а не для абсолютно точного восстановления файловой системы.
+The tool is designed for **quick analysis and visualization** of folder structures, not for absolutely accurate reconstruction of the file system.
 
-<p align="right"><a href="#readme-top">в начало</a></p>
+<p align="right"><a href="#readme-top">back to top</a></p>
 
 ---
 
-<!-- ТЕСТИРОВАНИЕ -->
-## 7. Тестирование
+<!-- TESTING -->
+## 7. Testing
 
-В проекте реализован набор тестов для проверки корректности парсинга и работы различных режимов. Тесты охватывают:
+The project includes a test suite to verify the correctness of parsing and the behavior of various modes. The tests cover:
 
-- стандартный формат `tree` и формат `/A`;
-- обработку файлов в кодировке UTF-8, CP866, CP1251, EUC-KR, GB2312, ISO-8859-1, SHIFT_JIS, WINDOWS-1251, WINDOWS-1252 (вы можете самостоятельно протестировать в любой другой);
-- граничные случаи (папки с точкой, файлы без расширения, пустые папки);
-- все режимы сохранения (`flat`, `merged`, `merged_full`);
-- обработку ошибочных входных данных (отсутствие корневого пути, пустой файл).
+- standard `tree` format and `/A` format;
+- handling of files encoded in UTF-8, CP866, CP1251, EUC-KR, GB2312, ISO-8859-1, SHIFT_JIS, WINDOWS-1251, WINDOWS-1252 (you can also test with any other encoding yourself);
+- edge cases (folders with dots, files without extensions, empty folders);
+- all saving modes (`flat`, `merged`, `merged_full`);
+- handling of erroneous input (missing root path, empty file).
 
-### Запуск тестов
+### Running tests
 
-1. Установите зависимости для разработки (если ещё не сделали):
+1. Install development dependencies (if you haven't already):
 
    ```bash
    pip install -r requirements.txt
    ```
 
-2. Выполните команду из корневой папки проекта:
+2. Run the following command from the project root:
 
    ```bash
    pytest -v
    ```
 
-3. Для более детального отчёта можно использовать:
+3. For a more detailed report, use:
 
    ```bash
    pytest -v --tb=short
    ```
 
-<p align="right"><a href="#readme-top">в начало</a></p>
+<p align="right"><a href="#readme-top">back to top</a></p>
 
 ---
 
-<!-- ЛИЦЕНЗИЯ -->
-## 8. Лицензия
+<!-- LICENSE -->
+## 8. License
 
-Проект распространяется под лицензией **MIT**. Полный текст лицензии доступен в файле [`LICENSE`](LICENSE) в корне репозитория.
+This project is distributed under the **MIT** license. The full license text is available in the [`LICENSE`](LICENSE) file in the root of the repository.
 
-<p align="right"><a href="#readme-top">в начало</a></p>
+<p align="right"><a href="#readme-top">back to top</a></p>
 
 ---
 
-<!-- ВКЛАД В ПРОЕКТ -->
-## 9. Вклад в проект
+<!-- CONTRIBUTING -->
+## 9. Contributing
 
-Если вы нашли ошибку или хотите предложить улучшение, свяжитесь со мной по адресу: [usdmal@rambler.ru](usdmal@rambler.ru) или создайте [Issue](https://github.com/Usdmal-tech/tree_to-excel/issues) с подробным описанием.
+If you find a bug or would like to suggest an improvement, please contact me at [usdmal@rambler.ru](mailto:usdmal@rambler.ru) or create an [Issue](https://github.com/Usdmal-tech/tree_to-excel/issues) with a detailed description.
 
-<p align="right"><a href="#readme-top">в начало</a></p>
+<p align="right"><a href="#readme-top">back to top</a></p>
