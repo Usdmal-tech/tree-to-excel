@@ -267,19 +267,25 @@ After execution, the file `project_tree_[mode].xlsx` is created:
 - Example output in `flat` mode:
 
 <div align="center">
-<img src="./examples/project_tree_flat.png"/>
+
+![flat mode](./examples/project_tree_flat.png)
+
 </div>
 
 - Example output in `merged` mode:
 
 <div align="center">
-<img src="./examples/project_tree_merged.png"/>
+
+![merged mode](./examples/project_tree_merged.png)
+
 </div>
 
 - Example output in `merged_full` mode:
 
 <div align="center">
-<img src="./examples/project_tree_merged_full.png"/>
+
+![merged_full mode](./examples/project_tree_merged_full.png)
+
 </div>
 
 ### 5.2. Input (with `/A`)
@@ -309,19 +315,25 @@ After execution, the file `project_tree_[mode].xlsx` is created:
 - Example output in `flat` mode:
 
 <div align="center">
-<img src="./examples/project_tree_a_flat.png"/>
+
+![flat mode](./examples/project_tree_a_flat.png)
+
 </div>
 
 - Example output in `merged` mode:
 
 <div align="center">
-<img src="./examples/project_tree_a_merged.png"/>
+
+![merged mode](./examples/project_tree_a_merged.png)
+
 </div>
 
 - Example output in `merged_full` mode:
 
 <div align="center">
-<img src="./examples/project_tree_a_merged_full.png"/>
+
+![merged_full mode](./examples/project_tree_a_merged_full.png)
+
 </div>
 
 <p align="right"><a href="#readme-top">back to top</a></p>

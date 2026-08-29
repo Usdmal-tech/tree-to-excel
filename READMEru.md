@@ -267,19 +267,25 @@ C:\MY_PROJECT
 - пример вывода в режиме `flat`:
 
 <div align="center">
-<img src="./examples/project_tree_flat.png"/>
+
+![flat mode](./examples/project_tree_flat.png)
+
 </div>
 
 - пример вывода в режиме `merged`:
 
 <div align="center">
-<img src="./examples/project_tree_merged.png"/>
+
+![merged mode](./examples/project_tree_merged.png)
+
 </div>
 
 - пример вывода в режиме `merged_full`:
 
 <div align="center">
-<img src="./examples/project_tree_merged_full.png"/>
+
+![merged_full mode](./examples/project_tree_merged_full.png)
+
 </div>
 
 ### 5.2. Входной файл (c ключом `/A`)
@@ -309,19 +315,25 @@ C:\MY_PROJECT
 - пример вывода в режиме `flat`:
 
 <div align="center">
-<img src="./examples/project_tree_a_flat.png"/>
+
+![flat mode](./examples/project_tree_a_flat.png)
+
 </div>
 
 - пример вывода в режиме `merged`:
 
 <div align="center">
-<img src="./examples/project_tree_a_merged.png"/>
+
+![merged mode](./examples/project_tree_a_merged.png)
+
 </div>
 
 - пример вывода в режиме `merged_full`:
 
 <div align="center">
-<img src="./examples/project_tree_a_merged_full.png"/>
+
+![merged_full mode](./examples/project_tree_a_merged_full.png)
+
 </div>
 
 <p align="right"><a href="#readme-top">в начало</a></p>
