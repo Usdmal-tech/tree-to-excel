@@ -8,7 +8,7 @@ For full documentation, see README.md.
 For use: python tree_to_excel.py -i <tree_file> [-m <mode>] [-o <output_file>] [-e <encoding>]
 """
 
-__version__ = "1.0.0-cli"
+__version__ = "1.0.2"
 
 import os
 import sys

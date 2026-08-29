@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tree-to-excel"
-version = "1.0.0"
+version = "1.0.2"
 description = "Convert Windows tree command output to Excel with structured formatting"
 readme = "README.md"
 license = "MIT"
@@ -22,9 +22,10 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Operating System :: OS Independent",
     "Operating System :: Microsoft :: Windows",
-    "Topic :: Utilities",
+    "Topic :: System :: Filesystems",
     "Topic :: Office/Business",
-    "Topic :: File Management",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
     "Intended Audience :: Developers",
     "Intended Audience :: System Administrators",
     "Development Status :: 4 - Beta",
