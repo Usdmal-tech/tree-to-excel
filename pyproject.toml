@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tree-to-excel"
+version = "1.0.0"
+description = "Convert Windows tree command output to Excel with structured formatting"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    {name = "Usdmal", email = "ggg.qqq.1911@gmail.com"}  # замените на свои данные
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Operating System :: Microsoft :: Windows",
+    "Topic :: Utilities",
+    "Topic :: Office/Business",
+    "Topic :: File Management",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "Development Status :: 4 - Beta",
+]
+requires-python = ">= 3.8"
+dependencies = [
+    "openpyxl>=3.1.0",
+    "chardet>=5.2.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=9.1.1"]
+
+[project.urls]
+Homepage = "https://github.com/Usdmal-tech/tree-to-excel"
+Repository = "https://github.com/Usdmal-tech/tree-to-excel"
+
+[project.scripts]
+tree-to-excel = "tree_to_excel.tree_to_excel:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["tree_to_excel"]

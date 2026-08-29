@@ -1,0 +1,15 @@
+Folder PATH listing for volume System
+Volume serial number is 00000001 1234:5678
+C:\MY_PROJECT
+├───src
+│   ├───core
+│   │   ├───utils
+│   │   │   └───helpers.py
+│   │   └───main.py
+│   └───tests
+│       └───test_core.py
+├───docs
+│   ├───readme.md
+│   └───guide.pdf
+└───scripts
+    └───deploy.bat
