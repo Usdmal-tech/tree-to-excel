@@ -1,19 +1,29 @@
-# Python
-__pycache__/
-*.py[cod]
-*.so
-*.pyd
-*.pyo
+# Артефакты сборки и упаковки
+dist/
+build/
+*.egg-info/
+*.egg
 
-# Virtual environments
+# Виртуальные окружения
 venv/
 env/
-ENV/
+.venv/
 venv313/
 
-# IDE
+# Кеш Python
+__pycache__/
+*.pyc
+*.pyo
+*.py[cod]
+*.so
+
+# Файлы IDE (если нужно)
 .vscode/
 .idea/
+
+# Логи и временные файлы
+*.log
+*.tmp
 
 # Testing
 .pytest_cache/
