@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tree-to-excel"
-version = "1.0.0-cli"
+version = "1.0.0"
 description = "Convert Windows tree command output to Excel with structured formatting"
 readme = "README.md"
 license = "MIT"
