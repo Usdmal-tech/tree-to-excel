@@ -5,7 +5,7 @@
 Console tool to convert tree command output to Excel.
 Supports flat, merged, and merged_full modes.
 For full documentation, see README.md.
-For use: python tree_to_excel.py -i <tree_file> [-m <mode>] [-o <output_file>]
+For use: python tree_to_excel.py -i <tree_file> [-m <mode>] [-o <output_file>] [-e <encoding>]
 """
 
 __version__ = "1.0.0-cli"
