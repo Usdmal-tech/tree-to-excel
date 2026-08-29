@@ -105,6 +105,12 @@ Nesting levels are placed in corresponding columns. Folders are highlighted in *
 <!-- INSTALLATION -->
 ## 2. Installation
 
+The easiest way is to install from PyPI:
+
+```bash
+pip install tree-to-excel
+```
+
 ### Requirements
 
 - Python version **3.8** or higher.
@@ -136,6 +142,8 @@ After the dependencies are installed, the `tree_to_excel.py` script is ready to 
 ```bash
 python src/tree_to_excel/tree_to_excel.py -i <input_file> [-m <mode>] [-o <output_file>] [-e <encoding>]
 ```
+
+> After installation, the script is available as the tree-to-excel command.
 
 ### Options
 
