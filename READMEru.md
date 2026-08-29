@@ -268,7 +268,7 @@ C:\MY_PROJECT
 
 <div align="center">
 
-![flat mode](./examples/project_tree_flat.png)
+![flat mode](examples/project_tree_flat.jpg)
 
 </div>
 
@@ -276,7 +276,7 @@ C:\MY_PROJECT
 
 <div align="center">
 
-![merged mode](./examples/project_tree_merged.png)
+![merged mode](examples/project_tree_merged.jpg)
 
 </div>
 
@@ -284,7 +284,7 @@ C:\MY_PROJECT
 
 <div align="center">
 
-![merged_full mode](./examples/project_tree_merged_full.png)
+![merged_full mode](examples/project_tree_merged_full.jpg)
 
 </div>
 
@@ -316,7 +316,7 @@ C:\MY_PROJECT
 
 <div align="center">
 
-![flat mode](./examples/project_tree_a_flat.png)
+![flat mode](examples/project_tree_a_flat.jpg)
 
 </div>
 
@@ -324,7 +324,7 @@ C:\MY_PROJECT
 
 <div align="center">
 
-![merged mode](./examples/project_tree_a_merged.png)
+![merged mode](examples/project_tree_a_merged.jpg)
 
 </div>
 
@@ -332,7 +332,7 @@ C:\MY_PROJECT
 
 <div align="center">
 
-![merged_full mode](./examples/project_tree_a_merged_full.png)
+![merged_full mode](examples/project_tree_a_merged_full.jpg)
 
 </div>
 

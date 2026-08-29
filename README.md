@@ -268,7 +268,7 @@ After execution, the file `project_tree_[mode].xlsx` is created:
 
 <div align="center">
 
-![flat mode](./examples/project_tree_flat.png)
+![flat mode](examples/project_tree_flat.jpg)
 
 </div>
 
@@ -276,7 +276,7 @@ After execution, the file `project_tree_[mode].xlsx` is created:
 
 <div align="center">
 
-![merged mode](./examples/project_tree_merged.png)
+![merged mode](examples/project_tree_merged.jpg)
 
 </div>
 
@@ -284,7 +284,7 @@ After execution, the file `project_tree_[mode].xlsx` is created:
 
 <div align="center">
 
-![merged_full mode](./examples/project_tree_merged_full.png)
+![merged_full mode](examples/project_tree_merged_full.jpg)
 
 </div>
 
@@ -316,7 +316,7 @@ After execution, the file `project_tree_[mode].xlsx` is created:
 
 <div align="center">
 
-![flat mode](./examples/project_tree_a_flat.png)
+![flat mode](examples/project_tree_a_flat.jpg)
 
 </div>
 
@@ -324,7 +324,7 @@ After execution, the file `project_tree_[mode].xlsx` is created:
 
 <div align="center">
 
-![merged mode](./examples/project_tree_a_merged.png)
+![merged mode](examples/project_tree_a_merged.jpg)
 
 </div>
 
@@ -332,7 +332,7 @@ After execution, the file `project_tree_[mode].xlsx` is created:
 
 <div align="center">
 
-![merged_full mode](./examples/project_tree_a_merged_full.png)
+![merged_full mode](examples/project_tree_a_merged_full.jpg)
 
 </div>
 
