@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tree-to-excel"
-version = "1.0.0"
+version = "1.0.0-cli"
 description = "Convert Windows tree command output to Excel with structured formatting"
 readme = "README.md"
 license = "MIT"
@@ -46,6 +46,5 @@ Repository = "https://github.com/Usdmal-tech/tree-to-excel"
 [project.scripts]
 tree-to-excel = "tree_to_excel.tree_to_excel:main"
 
-[tool.setuptools]
-package-dir = {"" = "src"}
-packages = ["tree_to_excel"]
+[tool.setuptools.packages.find]
+where = ["src"]
