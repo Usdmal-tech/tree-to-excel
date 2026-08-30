@@ -145,9 +145,12 @@ def test_parse_no_root(tmp_path):
 
 # -------------- Test for generate_output_path ---------------
 def test_generate_output_path():
-    input_path = r"C:\temp\my_tree.txt"
+    input_path = os.path.join("C:", "temp", "my_tree.txt")
     out = generate_output_path(input_path, "flat")
-    assert out == r"C:\temp\my_tree_flat.xlsx"
+    expected = os.path.join(
+        os.path.dirname(os.path.abspath(input_path)), "my_tree_flat.xlsx"
+    )
+    assert out == expected
 
 
 # ----------- Parametrized test for all save modes -----------
