@@ -36,22 +36,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
       - name: Install Ruff
-        run: pip install ruff
+        run: pip install ruff==0.16.5
 
       - name: Lint with Ruff
         run: ruff check .
 
       - name: Check formatting with Ruff
         run: ruff format --check .
-      - name: Lint only changed files
-        run: |
-          git fetch origin main
-          ruff check $(git diff --name-only origin/main...HEAD | grep '\.py$')

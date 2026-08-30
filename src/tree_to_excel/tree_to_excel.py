@@ -34,7 +34,7 @@ LEVEL_COLORS = [
 
 
 # ------------------ File reading with encoding -------------------
-def read_tree_lines(filepath: str, forced_encoding: str | None) -> list[str]:
+def read_tree_lines(filepath: str, forced_encoding: str | None = None) -> list[str]:
     """
     Reads the tree file with encoding detection or forced encoding.
     Args:
@@ -77,7 +77,7 @@ def read_tree_lines(filepath: str, forced_encoding: str | None) -> list[str]:
 
 
 # -------------------------- Tree parser---------------------------
-def parse_tree_file(filepath: str, encoding: str | None):  # noqa: C901
+def parse_tree_file(filepath: str, encoding: str | None = None):  # noqa: C901
     """
     Parses tree output file (supports formats with and without the /A parameter).
     Args:
