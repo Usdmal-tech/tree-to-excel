@@ -4,7 +4,7 @@
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![GitHub repo size](https://img.shields.io/github/repo-size/Usdmal-tech/tree-to-excel)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Usdmal-tech/tree-to-excel)
-![Version](https://img.shields.io/badge/version-1.0.2-blueviolet)
+![Version](https://img.shields.io/badge/version-1.0.3-blueviolet)
 
 # Tree to Excel Parser
 
