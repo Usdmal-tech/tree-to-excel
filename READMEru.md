@@ -5,6 +5,7 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/Usdmal-tech/tree-to-excel)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Usdmal-tech/tree-to-excel)
 ![Version](https://img.shields.io/badge/version-1.0.3-blueviolet)
+![CI](https://github.com/Usdmal-tech/tree-to-excel/actions/workflows/ci.yml/badge.svg)
 
 # Tree to Excel Parser
 
