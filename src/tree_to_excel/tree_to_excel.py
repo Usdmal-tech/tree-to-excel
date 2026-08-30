@@ -6,6 +6,7 @@ Supports flat, merged, and merged_full modes.
 For full documentation, see README.md.
 For use: python tree_to_excel.py -i <tree_file> [-m <mode>] [-o <output_file>] [-e <encoding>]
 """
+
 from __future__ import annotations
 
 __version__ = "1.0.3"
@@ -31,21 +32,18 @@ LEVEL_COLORS = [
     "DAEEF3",  # L6
 ]
 
+
 # ------------------ File reading with encoding -------------------
 def read_tree_lines(filepath: str, forced_encoding: str | None) -> list[str]:
     """
     Reads the tree file with encoding detection or forced encoding.
-    
     Args:
         filepath: Path to the tree output file.
         forced_encoding: If provided, uses this encoding unconditionally.
-    
     Returns:
         List of lines (without trailing newlines).
-    
     Raises:
         ValueError: If decoding fails even with forced encoding.
-    
     Complexity: O(N) – reads entire file once.
     Safety: Handles UnicodeDecodeError gracefully and suggests manual encoding.
     """
@@ -64,7 +62,7 @@ def read_tree_lines(filepath: str, forced_encoding: str | None) -> list[str]:
             print(
                 f"Warning: Could not reliably detect encoding (confidence={confidence:.2f}). "
                 f"Using 'utf-8' as fallback. If characters are garbled, rerun with --encoding.",
-                file=sys.stderr
+                file=sys.stderr,
             )
 
     try:
@@ -73,23 +71,22 @@ def read_tree_lines(filepath: str, forced_encoding: str | None) -> list[str]:
         raise ValueError(
             f"Failed to decode file with {encoding}: {e}. "
             "Please specify correct encoding with --encoding."
-        )
+        ) from e
 
     return text.splitlines()
 
+
 # -------------------------- Tree parser---------------------------
-def parse_tree_file(filepath: str, encoding: str | None):
+def parse_tree_file(filepath: str, encoding: str | None):  # noqa: C901
     """
     Parses tree output file (supports formats with and without the /A parameter).
-    
     Args:
         filepath: Path to the tree file.
         encoding: Optional forced encoding (overrides auto-detection).
-    
     Returns:
         (items, folder_count, file_count)
     """
-    lines = read_tree_lines(filepath, encoding) # lines are now Unicode strings
+    lines = read_tree_lines(filepath, encoding)  # lines are now Unicode strings
 
     # --------------------- Find root path ---------------------
     root_line = None
@@ -104,8 +101,8 @@ def parse_tree_file(filepath: str, encoding: str | None):
         raise ValueError(r"Root path not found in format 'X:\...'")
 
     is_standard = False
-    for line in lines[start_idx:start_idx+10]:
-        if '├' in line or '└' in line:
+    for line in lines[start_idx : start_idx + 10]:
+        if "├" in line or "└" in line:
             is_standard = True
             break
 
@@ -129,7 +126,7 @@ def parse_tree_file(filepath: str, encoding: str | None):
         if marker_pos != -1:
             # Line with marker - folder (or empty folder)
             level = marker_pos // INDENT_STEP + 1
-            name = line[marker_pos + INDENT_STEP:].strip()
+            name = line[marker_pos + INDENT_STEP :].strip()
             has_marker = True
         else:
             # Line without marker is file (or indented item without marker)
@@ -166,18 +163,20 @@ def parse_tree_file(filepath: str, encoding: str | None):
 
         # Folder if has children OR (no children but had marker - empty folder)
         if is_standard:
-            is_dir = has_child or (has_marker and not has_child and '.' not in name)
+            is_dir = has_child or (has_marker and not has_child and "." not in name)
         else:
             # /A format: folder only by presence of children (marker not considered)
             is_dir = has_child
 
-        items.append({
-            "level": level,
-            "name": name,
-            "is_dir": is_dir,
-            "ancestors": [],
-            "path": None,
-        })
+        items.append(
+            {
+                "level": level,
+                "name": name,
+                "is_dir": is_dir,
+                "ancestors": [],
+                "path": None,
+            }
+        )
 
     # ---------------- Build ancestors and path ----------------
     stack = []
@@ -206,8 +205,11 @@ def parse_tree_file(filepath: str, encoding: str | None):
 
     return items, folder_count, file_count
 
+
 # -------------------------- Save in Excel --------------------------
-def save_to_excel(items: list[dict], output_file: str, mode: str, folder_count: int, file_count: int) -> None:
+def save_to_excel(  # noqa: C901
+    items: list[dict], output_file: str, mode: str, folder_count: int, file_count: int
+) -> None:
     """Saves the list of items to Excel with the selected mode."""
     if not items:
         return
@@ -225,7 +227,7 @@ def save_to_excel(items: list[dict], output_file: str, mode: str, folder_count: 
 
     max_level = max(item["level"] for item in items)
 
-    headers = [f"L{i+1}" for i in range(max_level)] + ["Full path"]
+    headers = [f"L{i + 1}" for i in range(max_level)] + ["Full path"]
     ws.append(headers)
 
     if mode == "flat":
@@ -253,12 +255,16 @@ def save_to_excel(items: list[dict], output_file: str, mode: str, folder_count: 
         for row in ws.iter_rows(min_row=2, max_row=ws.max_row):
             for col_idx, cell in enumerate(row[:-1]):
                 if cell.value:
-                    cell.fill = PatternFill(start_color=LEVEL_COLORS[col_idx % len(LEVEL_COLORS)],
-                                            end_color=LEVEL_COLORS[col_idx % len(LEVEL_COLORS)],
-                                            fill_type="solid")
+                    cell.fill = PatternFill(
+                        start_color=LEVEL_COLORS[col_idx % len(LEVEL_COLORS)],
+                        end_color=LEVEL_COLORS[col_idx % len(LEVEL_COLORS)],
+                        fill_type="solid",
+                    )
                     cell.font = Font(bold=True)
             # Path - yellow
-            row[-1].fill = PatternFill(start_color="FFF2CC", end_color="FFF2CC", fill_type="solid")
+            row[-1].fill = PatternFill(
+                start_color="FFF2CC", end_color="FFF2CC", fill_type="solid"
+            )
     else:
         # merged / merged_full - merging cells
         for col_idx in range(max_level):
@@ -269,7 +275,9 @@ def save_to_excel(items: list[dict], output_file: str, mode: str, folder_count: 
                 val = cell.value
                 if val:
                     color = LEVEL_COLORS[col_idx % len(LEVEL_COLORS)]
-                    cell.fill = PatternFill(start_color=color, end_color=color, fill_type="solid")
+                    cell.fill = PatternFill(
+                        start_color=color, end_color=color, fill_type="solid"
+                    )
                     if mode == "merged_full":
                         item_idx = row_idx - 2
                         if 0 <= item_idx < len(items):
@@ -282,20 +290,32 @@ def save_to_excel(items: list[dict], output_file: str, mode: str, folder_count: 
 
                 if val != current_val:
                     if current_val is not None and start_row < row_idx - 1:
-                        ws.merge_cells(start_row=start_row, start_column=col_idx + 1,
-                                       end_row=row_idx - 1, end_column=col_idx + 1)
+                        ws.merge_cells(
+                            start_row=start_row,
+                            start_column=col_idx + 1,
+                            end_row=row_idx - 1,
+                            end_column=col_idx + 1,
+                        )
                     current_val = val
                     start_row = row_idx
             # Last group
             if current_val is not None and start_row < ws.max_row:
-                ws.merge_cells(start_row=start_row, start_column=col_idx + 1,
-                               end_row=ws.max_row, end_column=col_idx + 1)
+                ws.merge_cells(
+                    start_row=start_row,
+                    start_column=col_idx + 1,
+                    end_row=ws.max_row,
+                    end_column=col_idx + 1,
+                )
 
         path_column = max_level + 1
-        for row in ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=path_column, max_col=path_column):
+        for row in ws.iter_rows(
+            min_row=2, max_row=ws.max_row, min_col=path_column, max_col=path_column
+        ):
             for cell in row:
                 if cell.value:
-                    cell.fill = PatternFill(start_color="FFF2CC", end_color="FFF2CC", fill_type="solid")
+                    cell.fill = PatternFill(
+                        start_color="FFF2CC", end_color="FFF2CC", fill_type="solid"
+                    )
 
     # --------------------- Common styles ----------------------
     # Auto-width
@@ -322,27 +342,48 @@ def save_to_excel(items: list[dict], output_file: str, mode: str, folder_count: 
     ws.merge_cells(f"A{stat_row}:{last_col}{stat_row}")
     stat_cell = ws.cell(row=stat_row, column=1)
     stat_cell.value = stat_text
-    stat_cell.fill = PatternFill(start_color="FFCCFF", end_color="FFCCFF", fill_type="solid")
+    stat_cell.fill = PatternFill(
+        start_color="FFCCFF", end_color="FFCCFF", fill_type="solid"
+    )
     stat_cell.font = Font(bold=True, size=12)
     stat_cell.alignment = Alignment(horizontal="center", vertical="center")
 
     wb.save(output_file)
 
+
 # ----------------------------- Utility -----------------------------
 def generate_output_path(input_file: str, mode: str) -> str:
     """Generates output filename in the same folder."""
     base = os.path.splitext(os.path.basename(input_file))[0]
-    return os.path.join(os.path.dirname(os.path.abspath(input_file)), f"{base}_{mode}.xlsx")
+    return os.path.join(
+        os.path.dirname(os.path.abspath(input_file)), f"{base}_{mode}.xlsx"
+    )
+
 
 # ------------------------------ Main -------------------------------
 def main():
-    parser = argparse.ArgumentParser(description="Convert tree output to Excel (simplified version)")
+    parser = argparse.ArgumentParser(
+        description="Convert tree output to Excel (simplified version)"
+    )
     parser.add_argument("-i", "--input", required=True, help="Path to input tree file")
-    parser.add_argument("-m", "--mode", choices=["flat", "merged", "merged_full"],
-                        default="flat", help="Output mode (default: flat)")
-    parser.add_argument("-o", "--output", help="Path to output Excel (generated if not specified)")
-    parser.add_argument("-e", "--encoding", help="Force encoding (e.g. utf-8, cp1251). Overrides auto-detection.")
-    parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
+    parser.add_argument(
+        "-m",
+        "--mode",
+        choices=["flat", "merged", "merged_full"],
+        default="flat",
+        help="Output mode (default: flat)",
+    )
+    parser.add_argument(
+        "-o", "--output", help="Path to output Excel (generated if not specified)"
+    )
+    parser.add_argument(
+        "-e",
+        "--encoding",
+        help="Force encoding (e.g. utf-8, cp1251). Overrides auto-detection.",
+    )
+    parser.add_argument(
+        "--version", action="version", version=f"%(prog)s {__version__}"
+    )
 
     args = parser.parse_args()
 
@@ -351,7 +392,9 @@ def main():
         print(f"Error: file '{args.input}' not found.", file=sys.stderr)
         sys.exit(1)
 
-    output_file = args.output if args.output else generate_output_path(args.input, args.mode)
+    output_file = (
+        args.output if args.output else generate_output_path(args.input, args.mode)
+    )
 
     try:
         items, folders, files = parse_tree_file(args.input, args.encoding)
@@ -370,6 +413,7 @@ def main():
         sys.exit(1)
 
     print(f"Done: {output_file}")
+
 
 if __name__ == "__main__":
     main()
