@@ -90,9 +90,9 @@ C:\PROJECTS
     # Папка project.v1 не имеет потомков, есть маркер и точка -> будет файлом
     dot_folder = next((it for it in items if it["name"] == "project.v1"), None)
     assert dot_folder is not None
-    assert (
-        dot_folder["is_dir"] is False
-    ), "Empty folder with dot should be misidentified as a file"
+    assert dot_folder["is_dir"] is False, (
+        "Empty folder with dot should be misidentified as a file"
+    )
     # Check that `docs` is defined as a folder (has children)
     docs = next((it for it in items if it["name"] == "docs"), None)
     assert docs is not None
@@ -130,9 +130,9 @@ C:\PROJECTS
     items, folders, files = parse_tree_file(str(f))
     readme = next((it for it in items if it["name"] == "README"), None)
     assert readme is not None
-    assert (
-        readme["is_dir"] is True
-    ), "File without extension should be misidentified as a folder"
+    assert readme["is_dir"] is True, (
+        "File without extension should be misidentified as a folder"
+    )
 
 
 # --------------- Test for missing root path -----------------
@@ -220,6 +220,6 @@ C:\\PROJECTS
     # Check that filename is preserved exactly
     file_items = [it for it in items if not it["is_dir"]]
     assert len(file_items) == 1, "Expected exactly one file item"
-    assert (
-        file_items[0]["name"] == filename
-    ), f"Expected filename '{filename}', got '{file_items[0]['name']}'"
+    assert file_items[0]["name"] == filename, (
+        f"Expected filename '{filename}', got '{file_items[0]['name']}'"
+    )
