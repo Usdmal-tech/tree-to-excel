@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 Console tool to convert tree command output to Excel.
@@ -7,16 +6,17 @@ Supports flat, merged, and merged_full modes.
 For full documentation, see README.md.
 For use: python tree_to_excel.py -i <tree_file> [-m <mode>] [-o <output_file>] [-e <encoding>]
 """
+from __future__ import annotations
 
-__version__ = "1.0.2"
+__version__ = "1.0.3"
 
+import argparse
 import os
 import sys
-import argparse
-import chardet
 
+import chardet
 from openpyxl import Workbook
-from openpyxl.styles import PatternFill, Font, Alignment
+from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 
 # ---------------------------- Constants -----------------------------
@@ -32,7 +32,7 @@ LEVEL_COLORS = [
 ]
 
 # ------------------ File reading with encoding -------------------
-def read_tree_lines(filepath: str, forced_encoding: str = None) -> list[str]:
+def read_tree_lines(filepath: str, forced_encoding: str | None) -> list[str]:
     """
     Reads the tree file with encoding detection or forced encoding.
     
@@ -78,7 +78,7 @@ def read_tree_lines(filepath: str, forced_encoding: str = None) -> list[str]:
     return text.splitlines()
 
 # -------------------------- Tree parser---------------------------
-def parse_tree_file(filepath: str, encoding: str = None):
+def parse_tree_file(filepath: str, encoding: str | None):
     """
     Parses tree output file (supports formats with and without the /A parameter).
     
@@ -304,9 +304,8 @@ def save_to_excel(items: list[dict], output_file: str, mode: str, folder_count: 
         col_letter = get_column_letter(col[0].column)
         for cell in col:
             try:
-                if len(str(cell.value)) > max_len:
-                    max_len = len(str(cell.value))
-            except:
+                max_len = max(max_len, len(str(cell.value)))
+            except TypeError:
                 pass
         ws.column_dimensions[col_letter].width = min((max_len + 2) * 1.2, 50)
     for cell in ws[1]:

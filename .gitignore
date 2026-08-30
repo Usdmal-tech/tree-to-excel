@@ -3,6 +3,7 @@ dist/
 build/
 *.egg-info/
 *.egg
+.ruff_cache/
 
 # Виртуальные окружения
 venv/
