@@ -1,6 +1,6 @@
 <a id="readme-top"></a>
 
-![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![GitHub repo size](https://img.shields.io/github/repo-size/Usdmal-tech/tree-to-excel)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Usdmal-tech/tree-to-excel)
@@ -118,24 +118,31 @@
 pip install tree-to-excel
 ```
 
-### Требования
+После установки команда `tree-to-excel` становится доступна в вашем терминале.
 
-- Python версии **3.8** или выше.
-- Установленный пакетный менеджер `pip`.
+Если вы хотите **участвовать в разработке или запустить последнюю версию из репозитория**, выполните следующие шаги:
 
-### Шаги
-
-1. Клонируйте репозиторий или скачайте файлы проекта.
-2. Перейдите в корневую папку проекта (где находится `requirements.txt`).
-3. Установите необходимые зависимости:
+1. Клонируйте репозиторий:
 
    ```bash
-   pip install -r requirements.txt
+   git clone https://github.com/Usdmal-tech/tree-to-excel.git
+   cd tree-to-excel
    ```
 
-4. Для запуска тестов также потребуется `pytest` – он уже включён в `requirements.txt`, но если вы не планируете тестировать, его можно не устанавливать (он не используется в основном скрипте).
+2. Установите Poetry (если ещё не установлен) — см. [документацию Poetry](https://python-poetry.org/docs/).
+3. Установите проект и его зависимости:
 
-После установки зависимостей программа `tree_to_excel.py` готов к использованию.
+   ```bash
+   poetry install
+   ```
+
+4. Активируйте виртуальное окружение или используйте `poetry run` для запуска команд:
+
+   ```bash
+   poetry shell
+   ```
+
+   или добавляйте `poetry run` перед командами.
 
 <p align="right"><a href="#readme-top">в начало</a></p>
 
@@ -147,10 +154,17 @@ pip install tree-to-excel
 ### Синтаксис
 
 ```bash
-python src/tree_to_excel/tree_to_excel.py -i <входной_файл> [-m <режим>] [-o <выходной_файл>] [-e <кодировка>]
+tree_to_excel -i <входной_файл> [-m <режим>] [-o <выходной_файл>] [-e <кодировка>]
 ```
 
-> После установки скрипт доступен в виде команды tree-to-excel.
+> Если вы не устанавливали пакет (например, запускаете из исходников без установки), вы можете использовать:
+> ```bash
+> python -m tree_to_excel.tree_to_excel -i <input_file> ...
+> ```
+> или напрямую выполнить скрипт:
+> ```bash
+> python src/tree_to_excel/tree_to_excel.py -i <input_file> ...
+> ```
 
 ### Параметры
 
@@ -167,25 +181,25 @@ python src/tree_to_excel/tree_to_excel.py -i <входной_файл> [-m <ре
 1. **Базовый запуск** (режим `flat`, выходной файл создаётся автоматически):
 
    ```bash
-   python src/tree_to_excel/tree_to_excel.py -i tree_output.txt
+   tree_to_excel -i tree_output.txt
    ```
 
 2. **Указание режима и выходного файла**:
 
    ```bash
-   python src/tree_to_excel/tree_to_excel.py -i tree.txt -m merged_full -o result.xlsx
+   tree_to_excel -i tree.txt -m merged_full -o result.xlsx
    ```
 
 3. **Указание кодировки**
 
    ```bash
-   python src/tree_to_excel/tree_to_excel.py -i tree.txt -m merged_full -e CP866
+   tree_to_excel -i tree.txt -m merged_full -e CP866
    ```
 
 4. **Получение справки**:
 
    ```bash
-   python src/tree_to_excel/tree_to_excel.py -h
+   tree_to_excel -h
    ```
 
 ### Примечания
@@ -213,7 +227,7 @@ python src/tree_to_excel/tree_to_excel.py -i <входной_файл> [-m <ре
 **Пример команды:**
 
 ```bash
-python src/tree_to_excel/tree_to_excel.py tree.txt -m flat
+tree_to_excel tree.txt -m flat
 ```
 
 ### 4.2. Режим `merged` (объединённый)
@@ -225,7 +239,7 @@ python src/tree_to_excel/tree_to_excel.py tree.txt -m flat
 **Пример команды:**
 
 ```bash
-python src/tree_to_excel/tree_to_excel.py -i tree.txt -m merged
+tree_to_excel -i tree.txt -m merged
 ```
 
 ### 4.3. Режим `merged_full` (полный объединённый)
@@ -237,7 +251,7 @@ python src/tree_to_excel/tree_to_excel.py -i tree.txt -m merged
 **Пример команды:**
 
 ```bash
-python src/tree_to_excel/tree_to_excel.py -i tree.txt -m merged_full
+tree_to_excel -i tree.txt -m merged_full
 ```
 
 <br>
@@ -371,12 +385,12 @@ C:\MY_PROJECT
 
 Эта логика может давать сбои в следующих случаях:
 
-- **Папки с точкой в имени**  
-  Например, `project.v1`, `.config`, `my.folder`.  
+- **Папки с точкой в имени**
+  Например, `project.v1`, `.config`, `my.folder`.
   Поскольку в имени есть точка, парсер сочтёт их файлами, даже если это пустые папки (или папки, у которых нет видимых потомков в выводе `tree`).
   *Результат:* такие папки не попадут в режимы `flat` и `merged` (там выводятся только папки) и будут отображаться как файлы в `merged_full`.
 
-- **Файлы без расширения**  
+- **Файлы без расширения**
   Например, `README`, `Makefile`, `LICENSE`, `Dockerfile`.
   *Результат:* они будут ошибочно включены в списки папок в режимах `flat` и `merged`, а в `merged_full` будут выделены жирным шрифтом как папки.
 
@@ -405,7 +419,7 @@ C:\MY_PROJECT
 Пример:
 
 ```bash
-python src/tree_to_excel/tree_to_excel.py -i my_tree.txt --encoding CP866
+tree_to_excel -i my_tree.txt --encoding CP866
 ```
 
 ### 6.5. Общее замечание
@@ -429,23 +443,25 @@ python src/tree_to_excel/tree_to_excel.py -i my_tree.txt --encoding CP866
 
 ### Запуск тестов
 
-1. Установите зависимости для разработки (если ещё не сделали):
+1. Убедитесь, что вы установили проект с зависимостями для разработки. Если вы ещё этого не сделали, выполните:
 
    ```bash
-   pip install -r requirements.txt
+   poetry install
    ```
 
-2. Выполните команду из корневой папки проекта:
+2. Запустите тесты с помощью Poetry:
 
    ```bash
-   pytest -v
+   poetry run pytest -v
    ```
 
-3. Для более детального отчёта можно использовать:
+3. Для более подробного отчёта используйте:
 
    ```bash
-   pytest -v --tb=short
+   poetry run pytest -v --tb=short
    ```
+
+В качестве альтернативы, если вы находитесь в оболочке Poetry (`poetry shell`), вы можете опустить `poetry run` и использовать напрямую `pytest`.
 
 <p align="right"><a href="#readme-top">в начало</a></p>
 

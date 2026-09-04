@@ -1,36 +1,54 @@
-# Артефакты сборки и упаковки
+# Build and packaging artifacts
 dist/
 build/
 *.egg-info/
 *.egg
 .ruff_cache/
 
-# Виртуальные окружения
+# Virtual environments
+.venv/
 venv/
 env/
-.venv/
-venv313/
 
-# Кеш Python
+# Python cache
 __pycache__/
 *.pyc
 *.pyo
 *.py[cod]
+*$py.class
 *.so
 
-# Файлы IDE (если нужно)
+# IDE files
 .vscode/
 .idea/
 
-# Логи и временные файлы
+# Logs and temporary files
 *.log
 *.tmp
 
 # Testing
 .pytest_cache/
 .coverage
+.coverage.*
+coverage.xml
 htmlcov/
+.hypothesis/
 
-# Temporary test files
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Static analysis caches
+.mypy_cache/
+.pytype/
+.pyre/
+.pyright/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Project-specific temporary test files
 tests/.pytest_temp/
-*.log

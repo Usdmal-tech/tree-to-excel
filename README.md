@@ -1,6 +1,6 @@
 <a id="readme-top"></a>
 
-![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![GitHub repo size](https://img.shields.io/github/repo-size/Usdmal-tech/tree-to-excel)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Usdmal-tech/tree-to-excel)
@@ -80,7 +80,7 @@ Useful for visualizing directory hierarchies, preserving and/or auditing file st
 <!-- FEATURES -->
 ## 1. Features
 
-- **Support for two `tree` formats**  
+- **Support for two `tree` formats**
   Works with both the standard `tree` output (using `├───`, `└───`) and the ASCII format (`tree /A`), which uses `+---`, `\---`.
 
 - **Three data presentation modes**
@@ -90,19 +90,19 @@ Useful for visualizing directory hierarchies, preserving and/or auditing file st
 
 Nesting levels are placed in corresponding columns. Folders are highlighted in **bold**.
 
-- **Automatic encoding detection**  
+- **Automatic encoding detection**
   The input file is analysed using the `chardet` library. If the detection confidence is below 0.85, the program falls back to **UTF-8** and displays a warning, recommending that you explicitly specify the encoding via the `--encoding` parameter if needed. This ensures that even with uncertain detection, data is not lost, and the user can easily correct the situation.
 
-- **color-coded levels**  
+- **color-coded levels**
   Each nesting level gets its own background color in Excel. The path to the item is highlighted in yellow.
 
-- **Statistics at the end of the table**  
+- **Statistics at the end of the table**
   A summary row is automatically added with the total number of folders and files.
 
-- **Flexible output**  
+- **Flexible output**
   If no output file is specified, a name is generated automatically based on the input file name and the selected mode.
 
-- **Simplicity**  
+- **Simplicity**
   The tool is designed to be used from the command line and does not require a graphical interface.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
@@ -118,24 +118,31 @@ The easiest way is to install from PyPI:
 pip install tree-to-excel
 ```
 
-### Requirements
+After installation, the `tree-to-excel` command becomes available in your terminal.
 
-- Python version **3.8** or higher.
-- Installed `pip` package manager.
+If you want **to contribute or run the latest development version**, follow these steps:
 
-### Steps
-
-1. Clone the repository or download the project files.
-2. Navigate to the project root directory (where `requirements.txt` is located).
-3. Install the required dependencies:
+1. Clone the repository:
 
    ```bash
-   pip install -r requirements.txt
+   git clone https://github.com/Usdmal-tech/tree-to-excel.git
+   cd tree-to-excel
    ```
 
-4. To run tests, you will also need `pytest` – it is already included in `requirements.txt`, but if you do not plan to test, you can skip installing it (it is not used by the main script).
+2. Install Poetry (if not already installed) – see [Poetry documentation](https://python-poetry.org/docs/).
+3. Install the project and its dependencies:
 
-After the dependencies are installed, the `tree_to_excel.py` script is ready to use.
+   ```bash
+   poetry install
+   ```
+
+4. Activate the virtual environment or use `poetry run` for commands:
+
+   ```bash
+   poetry shell
+   ```
+
+   or prefix commands with `poetry run`.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -147,10 +154,17 @@ After the dependencies are installed, the `tree_to_excel.py` script is ready to 
 ### Syntax
 
 ```bash
-python src/tree_to_excel/tree_to_excel.py -i <input_file> [-m <mode>] [-o <output_file>] [-e <encoding>]
+tree-to-excel -i <input_file> [-m <mode>] [-o <output_file>] [-e <encoding>]
 ```
 
-> After installation, the script is available as the tree-to-excel command.
+> If you haven't installed the package (e.g., you're running from source without installation), you can use:
+> ```bash
+> python -m tree_to_excel.tree_to_excel -i <input_file> ...
+> ```
+> or directly execute the script:
+> ```bash
+> python src/tree_to_excel/tree_to_excel.py -i <input_file> ...
+> ```
 
 ### Options
 
@@ -167,25 +181,25 @@ python src/tree_to_excel/tree_to_excel.py -i <input_file> [-m <mode>] [-o <outpu
 1. **Basic run** (mode `flat`, output file generated automatically):
 
    ```bash
-   python src/tree_to_excel/tree_to_excel.py -i tree_output.txt
+   tree_to_excel -i tree_output.txt
    ```
 
 2. **Specifying mode and output file**:
 
    ```bash
-   python src/tree_to_excel/tree_to_excel.py -i tree.txt -m merged_full -o result.xlsx
+   tree_to_excel -i tree.txt -m merged_full -o result.xlsx
    ```
 
 3. **Specifying encoding**:
 
    ```bash
-   python src/tree_to_excel/tree_to_excel.py -i tree.txt -m merged_full -e CP866
+   tree_to_excel -i tree.txt -m merged_full -e CP866
    ```
 
 4. **Getting help**:
 
    ```bash
-   python src/tree_to_excel/tree_to_excel.py -h
+   tree_to_excel -h
    ```
 
 ### Notes
@@ -213,7 +227,7 @@ The program supports three modes that determine which items appear in the Excel 
 **Example command:**
 
 ```bash
-python src/tree_to_excel/tree_to_excel.py tree.txt -m flat
+tree_to_excel tree.txt -m flat
 ```
 
 ### 4.2. `merged` mode
@@ -225,7 +239,7 @@ python src/tree_to_excel/tree_to_excel.py tree.txt -m flat
 **Example command:**
 
 ```bash
-python src/tree_to_excel/tree_to_excel.py -i tree.txt -m merged
+tree_to_excel -i tree.txt -m merged
 ```
 
 ### 4.3. `merged_full` mode
@@ -237,7 +251,7 @@ python src/tree_to_excel/tree_to_excel.py -i tree.txt -m merged
 **Example command:**
 
 ```bash
-python src/tree_to_excel/tree_to_excel.py -i tree.txt -m merged_full
+tree_to_excel -i tree.txt -m merged_full
 ```
 
 <br>
@@ -371,13 +385,13 @@ The parser determines the item type (folder or file) as follows:
 
 This logic may fail in the following cases:
 
-- **Folders with a dot in the name**  
-  For example, `project.v1`, `.config`, `my.folder`.  
-  Because the name contains a dot, the parser will consider them files, even if they are empty folders (or folders with no visible children in the `tree` output).  
+- **Folders with a dot in the name**
+  For example, `project.v1`, `.config`, `my.folder`.
+  Because the name contains a dot, the parser will consider them files, even if they are empty folders (or folders with no visible children in the `tree` output).
   *Result:* such folders will not appear in `flat` and `merged` modes (which only output folders) and will be displayed as files in `merged_full`.
 
-- **Files without an extension**  
-  For example, `README`, `Makefile`, `LICENSE`, `Dockerfile`.  
+- **Files without an extension**
+  For example, `README`, `Makefile`, `LICENSE`, `Dockerfile`.
   *Result:* they will be incorrectly included in folder lists in `flat` and `merged` modes, and in `merged_full` they will be highlighted in bold as folders.
 
 ### 6.2. `tree /A` (ASCII) format
@@ -395,7 +409,7 @@ If your structure contains **folders with dots** or **files without extensions**
 
 ### 6.4. Encodings
 
-The program automatically detects the input file encoding using the `chardet` library.  
+The program automatically detects the input file encoding using the `chardet` library.
 The confidence threshold is set to **0.85** – if the detector does not reach this confidence, it falls back to `UTF-8` as a default, and a warning is printed to the console recommending that you specify the encoding manually if the names appear incorrect.
 
 For most common encodings (UTF-8, WINDOWS-1251, ISO-8859-1), auto-detection works reliably. For less common ones (CP866, EUC-KR, GB2312, SHIFT-JIS, etc.), errors are possible.
@@ -405,7 +419,7 @@ For most common encodings (UTF-8, WINDOWS-1251, ISO-8859-1), auto-detection work
 Example:
 
 ```bash
-python src/tree_to_excel/tree_to_excel.py -i my_tree.txt --encoding CP866
+tree_to_excel -i my_tree.txt --encoding CP866
 ```
 
 ### 6.5. General note
@@ -429,23 +443,25 @@ The project includes a test suite to verify the correctness of parsing and the b
 
 ### Running tests
 
-1. Install development dependencies (if you haven't already):
+1. Make sure you have installed the project with development dependencies. If you haven't done so, run::
 
    ```bash
-   pip install -r requirements.txt
+   poetry install
    ```
 
-2. Run the following command from the project root:
+2. Execute tests using Poetry:
 
    ```bash
-   pytest -v
+   poetry run pytest -v
    ```
 
 3. For a more detailed report, use:
 
    ```bash
-   pytest -v --tb=short
+   poetry run pytest -v --tb=short
    ```
+
+Alternatively, if you are inside a Poetry shell (poetry shell), you can omit poetry run and directly use `pytest`
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
