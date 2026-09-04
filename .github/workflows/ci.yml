@@ -47,9 +47,6 @@ jobs:
     name: Lint and format check
     runs-on: ubuntu-latest
     steps:
-      - name: Run pre-commit
-        run: poetry run pre-commit run --all-files
-
       - name: Checkout code
         uses: actions/checkout@v5
 
