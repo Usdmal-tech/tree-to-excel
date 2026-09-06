@@ -4,6 +4,7 @@ build/
 *.egg-info/
 *.egg
 .ruff_cache/
+raw/
 
 # Virtual environments
 .venv/

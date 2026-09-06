@@ -41,7 +41,6 @@ Repository = "https://github.com/Usdmal-tech/tree-to-excel"
 [project.scripts]
 tree-to-excel = "tree_to_excel.tree_to_excel:main"
 
-# Если Poetry не найдёт пакет автоматически (обычно находит), можно указать явно:
 [tool.poetry]
 packages = [
     { include = "tree_to_excel", from = "src" },
